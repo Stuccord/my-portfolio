@@ -1,0 +1,353 @@
+/*
+ * Hero animation: "a website being built live".
+ * Pure CSS, so it starts instantly and costs no JavaScript.
+ *
+ * Timeline (about 5 seconds):
+ *   0.2s  wireframe blocks drop in
+ *   1.3s  words type in
+ *   2.6s  pictures fade in
+ *   3.6s  colour washes over the page
+ *   4.7s  "Live" badge pops
+ *
+ * Every element's normal style is its FINISHED state. The animations only
+ * describe where things start from, so with "reduce motion" on (animations
+ * off) visitors simply see the finished website.
+ * All sizes use cqw (percent of the frame width), so it scales like a picture
+ * and can never shift the page layout.
+ */
+
+.lb {
+  container-type: inline-size;
+  width: 100%;
+  position: relative;
+}
+
+.lb-frame {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 16 / 12.4;
+  overflow: hidden;
+  border-radius: 3cqw;
+  background: #141c2e;
+  border: 1px solid rgb(242 245 250 / 0.14);
+  box-shadow:
+    0 50px 120px -50px rgb(255 90 31 / 0.4),
+    0 30px 60px -30px rgb(15 23 42 / 0.45);
+}
+
+/* Browser bar */
+.lb-chrome {
+  position: relative;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 2.4cqw;
+  height: 8.4cqw;
+  padding: 0 3cqw;
+}
+.lb-dots {
+  display: flex;
+  gap: 1.1cqw;
+}
+.lb-dots i {
+  width: 1.9cqw;
+  height: 1.9cqw;
+  border-radius: 50%;
+  background: #34405a;
+}
+.lb-url {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 1.2cqw;
+  height: 4.8cqw;
+  padding: 0 2.4cqw;
+  border-radius: 99px;
+  background: #101728;
+  color: #9aa6ba;
+  font-size: 2.3cqw;
+  line-height: 1;
+}
+.lb-lock {
+  width: 1.5cqw;
+  height: 1.5cqw;
+  border-radius: 50%;
+  background: #25d366;
+  animation: lb-lock 0.4s 4.7s both;
+}
+.lb-progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: #ff5a1f;
+  transform-origin: left;
+  opacity: 0;
+  animation: lb-progress 4.9s linear both;
+}
+
+/* The website being built */
+.lb-site {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3.4cqw;
+  padding: 3.4cqw 4.4cqw 0;
+  background: #fbf3e4;
+  color: #1e2a1f;
+  font-family: Georgia, "Times New Roman", serif;
+  animation: lb-color 1s 3.6s both;
+}
+
+/* One building block: a grey wireframe box that later reveals real content. */
+.lb-w {
+  position: relative;
+  flex: none;
+  animation: lb-pop 0.55s var(--d, 0s) cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.lb-w::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r, 1cqw);
+  background: #dcd6cc;
+  border: 1px dashed #99938a;
+  opacity: 0;
+  animation: lb-wire-out 0.45s var(--o, 2s) both;
+}
+.lb-c {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  animation: lb-show 0.5s var(--o, 2s) both;
+}
+.lb-type {
+  animation: lb-type var(--t, 0.6s) var(--o, 2s) steps(var(--n, 14)) both;
+}
+
+.lb-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.lb-links {
+  display: flex;
+  gap: 2.6cqw;
+}
+.lb-logo {
+  font-size: 2.9cqw;
+  font-weight: 700;
+  font-style: italic;
+}
+.lb-link {
+  font-family: system-ui, sans-serif;
+  font-size: 1.9cqw;
+  justify-content: center;
+}
+.lb-btn {
+  justify-content: center;
+  border-radius: 99px;
+  background: #d9481c;
+  color: #fff;
+  font-family: system-ui, sans-serif;
+  font-size: 2cqw;
+  font-weight: 700;
+}
+
+.lb-hero {
+  display: grid;
+  grid-template-columns: 1.12fr 1fr;
+  gap: 4cqw;
+  align-items: center;
+}
+.lb-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6cqw;
+}
+.lb-eyebrow {
+  font-family: system-ui, sans-serif;
+  font-size: 1.7cqw;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #d9481c;
+  font-weight: 700;
+}
+.lb-h {
+  font-size: 6cqw;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.lb-p {
+  font-family: system-ui, sans-serif;
+  font-size: 2.05cqw;
+  color: #6b6f5e;
+}
+.lb-img {
+  aspect-ratio: 1 / 0.86;
+}
+.lb-img .lb-c,
+.lb-thumb .lb-c {
+  overflow: hidden;
+  border-radius: var(--r, 1cqw);
+  justify-content: center;
+  background: linear-gradient(140deg, #f6a23c, #d9481c);
+}
+.lb-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lb-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.4cqw;
+}
+.lb-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2cqw;
+}
+.lb-thumb {
+  height: 9cqw;
+}
+.lb-card-t {
+  font-family: system-ui, sans-serif;
+  font-size: 1.9cqw;
+  font-weight: 700;
+  justify-content: space-between;
+}
+.lb-card-t b {
+  color: #d9481c;
+}
+
+/* "Live" badge */
+.lb-live {
+  position: absolute;
+  top: -3.2cqw;
+  right: -1.5cqw;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 1.4cqw;
+  padding: 1.8cqw 3cqw;
+  border-radius: 99px;
+  background: #25d366;
+  color: #05240f;
+  font-weight: 700;
+  font-size: max(13px, 3cqw);
+  line-height: 1;
+  box-shadow: 0 12px 40px -8px rgb(37 211 102 / 0.7);
+  transform: rotate(4deg);
+  animation: lb-live 0.6s 4.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.lb-live i {
+  width: 1.6cqw;
+  height: 1.6cqw;
+  min-width: 7px;
+  min-height: 7px;
+  border-radius: 50%;
+  background: #05240f;
+}
+
+/* Step labels under the frame */
+.lb-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.1rem;
+  margin-top: 1.1rem;
+  font-size: 0.8125rem;
+  color: inherit;
+}
+.lb-steps li {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  animation: lb-step 0.4s var(--d, 0s) both;
+}
+.lb-steps li::before {
+  content: "";
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: #cf3f0a;
+}
+
+@keyframes lb-pop {
+  from {
+    opacity: 0;
+    transform: translateY(1.6cqw) scale(0.96);
+  }
+}
+@keyframes lb-wire-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes lb-show {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes lb-type {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes lb-color {
+  from {
+    filter: grayscale(1);
+  }
+  to {
+    filter: grayscale(0);
+  }
+}
+@keyframes lb-live {
+  from {
+    opacity: 0;
+    transform: rotate(-8deg) scale(0.4);
+  }
+}
+@keyframes lb-lock {
+  from {
+    background: #4a5670;
+  }
+}
+@keyframes lb-progress {
+  0% {
+    opacity: 1;
+    transform: scaleX(0);
+  }
+  94% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(1);
+  }
+}
+@keyframes lb-step {
+  from {
+    opacity: 0.28;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lb *,
+  .lb *::before {
+    animation: none !important;
+  }
+}

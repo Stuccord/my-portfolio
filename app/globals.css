@@ -1,0 +1,251 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #f5f6f8;
+  --color-ink-2: #ffffff;
+  --color-ink-3: #e8ebf0;
+  --color-bone: #0a0f1c;
+  --color-mute: #566074;
+  --color-ember: #cf3f0a;
+  --color-ember-soft: #e8561c;
+  --color-wa: #25d366;
+  --color-wa-ink: #05240f;
+  --color-line: rgb(10 15 28 / 0.14);
+
+  --font-display: var(--font-heading), "Arial Black", system-ui, sans-serif;
+  --font-sans: var(--font-body), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    background: var(--color-ink);
+    color: var(--color-bone);
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: var(--color-ember);
+    color: var(--color-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ember);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@layer components {
+  /*
+   * The site is light. Add class "theme-dark" to any block to flip it to the
+   * midnight navy palette (used for the final call-to-action and photo cards).
+   */
+  .theme-dark {
+    --color-ink: #0a0f1c;
+    --color-ink-2: #101728;
+    --color-ink-3: #182236;
+    --color-bone: #f2f5fa;
+    --color-mute: #a7b1c4;
+    --color-ember: #ff5a1f;
+    --color-ember-soft: #ff8a5c;
+    --color-line: rgb(242 245 250 / 0.14);
+    background-color: var(--color-ink);
+    color: var(--color-bone);
+  }
+
+  .container-x {
+    width: 100%;
+    max-width: 82rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-x {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  .section {
+    padding-block: clamp(4.5rem, 11vw, 9rem);
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+  }
+  .eyebrow::before {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+    background: var(--color-ember);
+  }
+
+  .h-section {
+    font-size: clamp(2.25rem, 6.2vw, 5rem);
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 3.25rem;
+    padding: 0.85rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.1;
+    white-space: nowrap;
+    transition:
+      background-color 0.25s,
+      color 0.25s,
+      border-color 0.25s,
+      box-shadow 0.25s;
+  }
+  .btn-wa {
+    background: var(--color-wa);
+    color: var(--color-wa-ink);
+    box-shadow: 0 0 0 0 rgb(37 211 102 / 0.4);
+  }
+  .btn-wa:hover {
+    background: #3ee07b;
+    box-shadow: 0 10px 40px -10px rgb(37 211 102 / 0.6);
+  }
+  .btn-ghost {
+    border: 1px solid var(--color-line);
+    color: var(--color-bone);
+  }
+  .btn-ghost:hover {
+    border-color: var(--color-bone);
+  }
+  .btn-ember {
+    background: var(--color-ember);
+    color: var(--color-ink);
+  }
+  .btn-ember:hover {
+    background: var(--color-ember-soft);
+  }
+
+  /* Film grain: a tiny tiled noise image, only on a few hero-type sections. */
+  .grain {
+    position: relative;
+    isolation: isolate;
+  }
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .glow {
+    position: absolute;
+    z-index: -2;
+    pointer-events: none;
+    border-radius: 999px;
+    background: radial-gradient(closest-side, rgb(255 110 50 / 0.26), rgb(255 110 50 / 0));
+  }
+
+  /* ── Device screens that scroll their screenshot on hover / tap ── */
+  .screen {
+    position: relative;
+    overflow: hidden;
+    container-type: size;
+    background: #fff;
+  }
+  .screen-shot {
+    display: block;
+    width: 100%;
+    height: auto;
+    transform: translateY(0);
+    transition: transform var(--scroll-dur, 6s) cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    will-change: transform;
+  }
+  .screen[data-on="true"] .screen-shot {
+    transform: translateY(min(0px, calc(-100% + 100cqh)));
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .device-group:hover .screen-shot {
+      transform: translateY(min(0px, calc(-100% + 100cqh)));
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .screen-shot {
+      transition-duration: 0.01s;
+    }
+  }
+
+  /* Swipeable photo row: hide the scrollbar but keep it scrollable. */
+  .photo-row {
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .photo-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* FAQ */
+  .faq-item summary {
+    list-style: none;
+    cursor: pointer;
+  }
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-item .faq-plus {
+    transition: transform 0.3s var(--ease-out-expo);
+  }
+  .faq-item[open] .faq-plus {
+    transform: rotate(45deg);
+  }
+  .faq-item[open] summary {
+    color: var(--color-ember);
+  }
+}
+
+/* Desktop-only cursor follower */
+.cursor-ring {
+  display: none;
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .cursor-ring {
+    display: block;
+  }
+}
