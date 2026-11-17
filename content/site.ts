@@ -211,9 +211,9 @@ export const site = {
     heading: "Business owners, in their own words.",
     /**
      * TODO: replace with real quotes, then set `placeholder: false` on each.
-     * While `placeholder` is true the card shows a small "Sample" tag so no
-     * visitor mistakes it for a real review.
-     * Set `show: false` to hide this whole section until you have real ones.
+     * Cards with `placeholder: true` only appear in `npm run dev` (with a
+     * "Sample" tag). The live site skips them, and hides the whole section
+     * until at least one real quote exists. Set `show: false` to hide it always.
      */
     show: true,
     items: [
