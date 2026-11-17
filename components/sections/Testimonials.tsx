@@ -2,15 +2,14 @@ import { site } from "@/content/site";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
+/**
+ * Real client quotes when there are any. Until then, a set of honest
+ * promises in the same spot, so the page never shows made-up reviews.
+ */
 export function Testimonials() {
   const { testimonials } = site;
-  if (!testimonials.show) return null;
-
-  // Sample quotes are a reminder for you while developing. They never reach
-  // the live site, and the section hides itself until a real quote exists.
-  const isDev = process.env.NODE_ENV === "development";
-  const items = testimonials.items.filter((item) => isDev || !item.placeholder);
-  if (items.length === 0) return null;
+  const items = testimonials.items;
+  if (items.length === 0) return <Promises />;
 
   const cols = items.length >= 3 ? "lg:grid-cols-3" : items.length === 2 ? "md:grid-cols-2 max-w-4xl" : "max-w-2xl";
 
@@ -23,9 +22,6 @@ export function Testimonials() {
           {items.map((item, i) => (
             <Reveal as="li" key={i} delay={i * 0.08} className={i === 1 && items.length >= 3 ? "lg:mt-10" : ""}>
               <figure className="relative flex h-full flex-col justify-between rounded-3xl border border-line bg-ink-2 p-7 md:p-9">
-                {item.placeholder ? (
-                  <span className="absolute right-5 top-5 rounded-full border border-ember px-2.5 py-1 text-[0.7rem] font-bold uppercase tracking-wider text-ember">Sample</span>
-                ) : null}
                 <div>
                   <span aria-hidden className="font-display text-6xl leading-none text-ember">
                     &ldquo;
@@ -42,6 +38,33 @@ export function Testimonials() {
                   </span>
                 </figcaption>
               </figure>
+            </Reveal>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+function Promises() {
+  const { promises } = site.testimonials;
+  return (
+    <section id="promises" className="section">
+      <div className="container-x">
+        <SectionHeading eyebrow={promises.eyebrow} heading={promises.heading} />
+
+        <ul className="mt-14 grid gap-6 md:mt-20 lg:grid-cols-3">
+          {promises.items.map((item, i) => (
+            <Reveal as="li" key={item.title} delay={i * 0.08} className={i === 1 ? "lg:mt-10" : ""}>
+              <div className="flex h-full flex-col rounded-3xl border border-line bg-ink-2 p-7 md:p-9">
+                <span aria-hidden className="grid h-11 w-11 place-items-center rounded-full bg-ember text-white">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12.5l4.5 4.5L19 7.5" />
+                  </svg>
+                </span>
+                <h3 className="mt-6 text-[clamp(1.4rem,2.6vw,1.75rem)] leading-tight">{item.title}</h3>
+                <p className="mt-3 text-mute">{item.text}</p>
+              </div>
             </Reveal>
           ))}
         </ul>

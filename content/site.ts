@@ -210,17 +210,22 @@ export const site = {
     eyebrow: "What clients say",
     heading: "Business owners, in their own words.",
     /**
-     * TODO: replace with real quotes, then set `placeholder: false` on each.
-     * Cards with `placeholder: true` only appear in `npm run dev` (with a
-     * "Sample" tag). The live site skips them, and hides the whole section
-     * until at least one real quote exists. Set `show: false` to hide it always.
+     * Real client quotes only. While this list is empty, the "promises"
+     * section below is shown in its place. Add a quote like this and the
+     * section switches to testimonials automatically:
+     *   { quote: "Since the site went live we get bookings every week.", name: "Ama Mensah", role: "Owner, Ama's Kitchen" },
      */
-    show: true,
-    items: [
-      { quote: "Replace this with a real client quote. One or two sentences about the result works best.", name: "Client name", role: "Owner, Business name", placeholder: true },
-      { quote: "Ask your client: what changed after the website went live? More calls, more orders, more bookings?", name: "Client name", role: "Manager, Business name", placeholder: true },
-      { quote: "A short, specific quote beats a long, general one. Numbers are even better.", name: "Client name", role: "Founder, Business name", placeholder: true },
-    ],
+    items: [] as Testimonial[],
+    /** Shown instead of testimonials until you have at least one real quote. */
+    promises: {
+      eyebrow: "What you can expect",
+      heading: "Promises I keep on every project.",
+      items: [
+        { title: "Replies the same day", text: "Message me on WhatsApp and you'll usually hear back the same day. You talk to me directly, not a call centre." },
+        { title: "One fixed price, agreed first", text: "You know the full cost before any work begins. You pay a deposit to start and the balance only when your site goes live." },
+        { title: "Your site stays yours", text: "Your domain is registered in your name, and your content belongs to you. No lock-in, no hidden fees later." },
+      ],
+    },
   },
 
   about: {
@@ -294,6 +299,8 @@ export type Project = {
   desktop?: Shot;
   mobile?: Shot;
 };
+
+export type Testimonial = { quote: string; name: string; role: string };
 
 export type Package = {
   name: string;
